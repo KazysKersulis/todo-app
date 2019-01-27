@@ -16,29 +16,25 @@ export function rootReducer(state, action) {
         case POPULATE_TODO_LISTS: {
             return Object.assign({}, state, {
                 todos: action.todos.filter(t => t.archived == false),
-                archivedTodos: state.todos.filter(t => t.archived == true)
+                archivedTodos: action.todos.filter(t => t.archived == true)
             })
         }
         case ADD_TODO: {
-            action.todo.id = state.todos.length + 1;
+            action.todo.id = state.todos.length + state.archivedTodos.length + 1;
+            action.todo.created = new Date()
             return Object.assign({}, state, {
                 todos: state.todos.concat(Object.assign({}, action.todo))
             })
         }
         case ARCHIVE_TODO: {
-            let todo = state.todos.find(t => t.id === action.id);
+            let todo = state.todos.find(t => t.id === action.todo.id);
             let index = state.todos.indexOf(todo);
             return Object.assign({}, state, {
-                todos: [
-                    ...state.todos.slice(0, index),
-                    Object.assign({}, todo, {
-                        archived: !todo.archived,
-                        completed: new Date()}),
-                    ...state.todos.slice(index + 1)
-                ],
+                todos: state.todos.filter(t => t.id !== action.todo.id),
                 archivedTodos: state.archivedTodos.concat(Object.assign({}, action.todo))
             })
         }
+        default: 
+            return state
     }
-    return state;
 }

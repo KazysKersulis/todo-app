@@ -1,3 +1,25 @@
-<p>
-  todo-list works!
-</p>
+<div *ngIf="(dataSource | async)?.length">
+  <mat-table [dataSource]="dataSource | async" class="mat-elevation-z8">
+    <ng-container matColumnDef="content">
+      <mat-header-cell fxFlex="600px" *matHeaderCellDef> Todo </mat-header-cell>
+      <mat-cell fxFlex="600px" *matCellDef="let todo"> {{todo.content}} </mat-cell>
+    </ng-container>
+    <ng-container matColumnDef="created">
+      <mat-header-cell *matHeaderCellDef> Created </mat-header-cell>
+      <mat-cell *matCellDef="let todo">
+        {{todo.created | date:'MMM d, y H:mm:ss'}}
+      </mat-cell>
+    </ng-container>
+    <ng-container matColumnDef="actions">
+      <mat-header-cell *matHeaderCellDef></mat-header-cell>
+      <mat-cell *matCellDef="let todo">
+        <button mat-icon-button (click)="archiveTodo(todo)"><mat-icon>delete_outline</mat-icon></button>
+      </mat-cell>
+    </ng-container>
+    <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
+    <mat-row *matRowDef="let row; columns: displayedColumns;"></mat-row>
+  </mat-table>
+  <div class="btn-style">
+    <button mat-raised-button color="primary" (click)="openDialog()">Open dialog</button>
+  </div>
+</div>

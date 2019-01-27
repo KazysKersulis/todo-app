@@ -1,3 +1,12 @@
-<p>
-  todo-dialog works!
-</p>
+<div>
+  <h2 mat-dialog-title>Create a new Todo</h2>
+  <mat-dialog-content>
+    <mat-form-field class="fullwidth">
+        <input matInput placeholder="Create a new Todo" [(ngModel)]="data.content">
+    </mat-form-field>
+  </mat-dialog-content>
+  <div mat-dialog-actions>
+    <button mat-raised-button (click)="onCloseConfirm()">Confirm</button>
+    <button mat-raised-button (click)="onCloseCancel()">Cancel</button>
+  </div>
+</div>

@@ -1,5 +1,7 @@
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
+import { NgRedux, NgReduxModule } from '@angular-redux/store';
+import { AppState, rootReducer, INITIAL_STATE } from './store';
 
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
@@ -12,7 +14,23 @@ import { ArchivedTodoListComponent } from './archived-todo-list/archived-todo-li
 import { TodoDialogComponent } from './todo-list/todo-dialog/todo-dialog.component';
 import { MyNavComponent } from './my-nav/my-nav.component';
 import { LayoutModule } from '@angular/cdk/layout';
-import { MatToolbarModule, MatButtonModule, MatSidenavModule, MatIconModule, MatListModule } from '@angular/material';
+
+import { 
+  MatToolbarModule, 
+  MatButtonModule, 
+  MatSidenavModule, 
+  MatIconModule, 
+  MatListModule, 
+  MatTableModule, 
+  MatCardModule,
+  MatDialogModule,
+  MatFormFieldModule,
+  MatInputModule
+} from '@angular/material';
+
+import { HttpClientModule } from '@angular/common/http';
+import { TodoService } from './todo.service';
+import { FormsModule } from '@angular/forms';
 
 @NgModule({
   declarations: [
@@ -25,15 +43,28 @@ import { MatToolbarModule, MatButtonModule, MatSidenavModule, MatIconModule, Mat
   imports: [
     BrowserModule,
     AppRoutingModule,
+    NgReduxModule,
     BrowserAnimationsModule,
     LayoutModule,
     MatToolbarModule,
     MatButtonModule,
     MatSidenavModule,
     MatIconModule,
-    MatListModule
+    MatListModule,
+    HttpClientModule,
+    MatCardModule,
+    MatDialogModule,
+    MatTableModule,
+    MatFormFieldModule,
+    FormsModule,
+    MatInputModule
   ],
-  providers: [],
-  bootstrap: [AppComponent]
+  providers: [TodoService],
+  bootstrap: [AppComponent],
+  entryComponents: [TodoDialogComponent]
 })
-export class AppModule { }
+export class AppModule {
+  constructor(ngRedux: NgRedux<AppState>) {
+    ngRedux.configureStore(rootReducer, INITIAL_STATE);
+  }
+ }

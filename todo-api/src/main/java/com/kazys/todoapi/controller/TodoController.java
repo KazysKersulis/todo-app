@@ -21,12 +21,12 @@ public class TodoController {
 
     @GetMapping(value = "/todos")
     @ResponseBody
-    public List<Todo> getAllNotes() {
+    public List<Todo> getAllTodos() {
         return todoService.getTodos();
     }
 
     @PostMapping(value = "/todos")
-    public void createNote(@RequestBody TodoViewModel todoViewModel, BindingResult bindingResult) throws ValidationException {
+    public void createTodo(@RequestBody TodoViewModel todoViewModel, BindingResult bindingResult) throws ValidationException {
 
         if (!bindingResult.hasErrors()) {
             todoService.createTodo(todoViewModel);
@@ -36,7 +36,7 @@ public class TodoController {
     }
 
     @DeleteMapping(value = "/todos/{id}")
-    public void archiveNote(@PathVariable Long id) {
+    public void archiveTodo(@PathVariable Long id) {
         todoService.archiveTodo(id);
     }
 
