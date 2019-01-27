@@ -1,7 +1,18 @@
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
+import { TodoListComponent } from './todo-list/todo-list.component';
+import { ArchivedTodoListComponent } from './archived-todo-list/archived-todo-list.component';
 
-const routes: Routes = [];
+const routes: Routes = [
+  {
+    path: 'todos',
+    component: TodoListComponent
+  },
+  {
+    path: 'archived',
+    component: ArchivedTodoListComponent
+  }
+];
 
 @NgModule({
   imports: [RouterModule.forRoot(routes)],

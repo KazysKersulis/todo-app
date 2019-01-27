@@ -40,9 +40,6 @@ public class TodoService {
     }
 
     public void archiveTodo(Long id) {
-//        Date date = new Date();
-//        Timestamp timestamp = new Timestamp(date.getTime());
-
         dsl.update(Tables.TODOS_)
                 .set(Tables.TODOS_.ARCHIVED, true)
                 .set(Tables.TODOS_.COMPLETED, Timestamp.from(Instant.now()))
