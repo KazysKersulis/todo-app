@@ -4,11 +4,8 @@ import { Todo } from '../todo';
 import { AppState } from '../store';
 import { NgRedux, select } from '@angular-redux/store';
 import { POPULATE_TODO_LISTS, ARCHIVE_TODO, ADD_TODO } from '../actions';
-import { Observable } from 'rxjs';
-import { DataSource } from '@angular/cdk/collections';
 import { TodoDialogComponent } from './todo-dialog/todo-dialog.component';
 import { MatDialog } from '@angular/material';
-import { stringify } from '@angular/compiler/src/util';
 
 @Component({
   selector: 'todo-list',
@@ -36,14 +33,10 @@ export class TodoListComponent implements OnInit {
 
   ngOnInit() {
     this.todoService.getAllTodos().subscribe(
-      res => {
-        this.populateTodoList(res);
+      todos => {
+        this.ngRedux.dispatch({ type: POPULATE_TODO_LISTS, todos: todos });
         this.dataSource = this.todos;
-      },
-      err => {
-        alert("An error has occurred;")
       })
-
   }
 
   openDialog(): void {
@@ -61,22 +54,13 @@ export class TodoListComponent implements OnInit {
     });
   }
 
-  populateTodoList(todos: Todo[]) {
-    localStorage.setItem('user', JSON.stringify(todos));
-    this.ngRedux.dispatch({ type: POPULATE_TODO_LISTS, todos: todos });
-  }
-
   archiveTodo(todo: Todo) {
     this.ngRedux.dispatch({ type: ARCHIVE_TODO, todo: todo })
-    this.todoService.archiveTodo(todo).subscribe(res => {
-      console.log("archived" + todo.id);
-    })
+    this.todoService.archiveTodo(todo);
   }
 
   createTodo(todo: Todo) {
     this.ngRedux.dispatch({type: ADD_TODO, todo:todo});
-    this.todoService.createTodo(todo).subscribe(res => {
-      console.log("saved new todo: " + todo.content);
-    })
+    this.todoService.createTodo(todo);
   }
 }
