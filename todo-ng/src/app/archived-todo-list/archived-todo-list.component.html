@@ -4,12 +4,6 @@
         <mat-header-cell *matHeaderCellDef> Todo </mat-header-cell>
         <mat-cell *matCellDef="let todo"> {{todo.content}} </mat-cell>
       </ng-container>
-      <ng-container matColumnDef="created">
-        <mat-header-cell *matHeaderCellDef> Created </mat-header-cell>
-        <mat-cell *matCellDef="let todo">
-          {{todo.created | date:'mediumDate'}}
-        </mat-cell>
-      </ng-container>
         <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
         <mat-row *matRowDef="let row; columns: displayedColumns;"></mat-row>
     </mat-table>

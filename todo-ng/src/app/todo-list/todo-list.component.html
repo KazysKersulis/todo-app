@@ -7,7 +7,7 @@
     <ng-container matColumnDef="created">
       <mat-header-cell *matHeaderCellDef> Created </mat-header-cell>
       <mat-cell *matCellDef="let todo">
-        {{todo.created | date:'MMM d, y H:mm:ss'}}
+        {{todo.created | date : 'mediumDate' }}
       </mat-cell>
     </ng-container>
     <ng-container matColumnDef="actions">

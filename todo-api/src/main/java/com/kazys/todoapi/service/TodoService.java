@@ -34,15 +34,14 @@ public class TodoService {
 
     public void createTodo(TodoViewModel todoViewModel) {
         dsl.insertInto(Tables.TODOS_)
-                .columns(Tables.TODOS_.CONTENT)
-                .values(todoViewModel.getContent())
+                .columns(Tables.TODOS_.CONTENT, Tables.TODOS_.CREATED)
+                .values(todoViewModel.getContent(), Timestamp.from(todoViewModel.getCreated().toInstant()))
                 .execute();
     }
 
     public void archiveTodo(Long id) {
         dsl.update(Tables.TODOS_)
                 .set(Tables.TODOS_.ARCHIVED, true)
-                .set(Tables.TODOS_.COMPLETED, Timestamp.from(Instant.now()))
                 .where(Tables.TODOS_.ID.equal(id.intValue()))
                 .execute();
     }

@@ -5,6 +5,10 @@ import { ArchivedTodoListComponent } from './archived-todo-list/archived-todo-li
 
 const routes: Routes = [
   {
+    path: '',
+    component: TodoListComponent
+  },
+  {
     path: 'todos',
     component: TodoListComponent
   },

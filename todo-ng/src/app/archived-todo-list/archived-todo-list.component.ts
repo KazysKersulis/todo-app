@@ -5,36 +5,19 @@ import { AppState } from '../store';
 import { Todo } from '../todo';
 import { POPULATE_TODO_LISTS } from '../actions';
 
+
 @Component({
   selector: 'app-archived-todo-list',
   templateUrl: './archived-todo-list.component.html',
   styleUrls: ['./archived-todo-list.component.css']
 })
-export class ArchivedTodoListComponent implements OnInit {
+export class ArchivedTodoListComponent{
 
   @select() archivedTodos;
 
-  // dataSource = new TodoDataSource(this);
-
   dataSource = this.archivedTodos;
-  displayedColumns = ['content', 'created'];
+  displayedColumns = ['content'];
 
-  constructor(private todoService: TodoService,
-    private ngRedux: NgRedux<AppState>) { }
-
-  ngOnInit() {
-    console.log(this.archivedTodos);
-    this.todoService.getAllTodos().subscribe(
-      res => {
-        this.populateTodoList(res);
-      },
-      err => {
-        alert("An error has occurred;")
-      })
-  }
-
-  populateTodoList(todos: Todo[]) {
-    this.ngRedux.dispatch({ type: POPULATE_TODO_LISTS, todos: todos });
-  }
+  constructor(private ngRedux: NgRedux<AppState>) { }
 
 }

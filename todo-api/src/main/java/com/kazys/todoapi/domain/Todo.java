@@ -8,17 +8,15 @@ public class Todo {
     private String content;
     private boolean archived;
     private Date created;
-    private Date completed;
 
     public Todo() {
     }
 
-    public Todo(long id, String content, boolean archived, Date created, Date completed) {
+    public Todo(long id, String content, boolean archived, Date created) {
         this.id = id;
         this.content = content;
         this.archived = archived;
         this.created = created;
-        this.completed = completed;
     }
 
     public long getId() {
@@ -51,13 +49,5 @@ public class Todo {
 
     public void setCreated(Date created) {
         this.created = created;
-    }
-
-    public Date getCompleted() {
-        return completed;
-    }
-
-    public void setCompleted(Date completed) {
-        this.completed = completed;
     }
 }

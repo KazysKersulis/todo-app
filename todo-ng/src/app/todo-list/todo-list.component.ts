@@ -27,7 +27,7 @@ export class TodoListComponent implements OnInit {
     completed: null
   }
 
-  dataSource = this.todos;
+  dataSource;
   displayedColumns = ['content', 'created', 'actions'];
 
   constructor(private todoService: TodoService,
@@ -38,6 +38,7 @@ export class TodoListComponent implements OnInit {
     this.todoService.getAllTodos().subscribe(
       res => {
         this.populateTodoList(res);
+        this.dataSource = this.todos;
       },
       err => {
         alert("An error has occurred;")
@@ -53,7 +54,6 @@ export class TodoListComponent implements OnInit {
     });
 
     dialogRef.afterClosed().subscribe(result => {
-      console.log('The dialog was closed');
       if (result !== 'Cancel' || result !== null) {
         this.todo.content = result;
         this.createTodo(this.todo);
@@ -62,6 +62,7 @@ export class TodoListComponent implements OnInit {
   }
 
   populateTodoList(todos: Todo[]) {
+    localStorage.setItem('user', JSON.stringify(todos));
     this.ngRedux.dispatch({ type: POPULATE_TODO_LISTS, todos: todos });
   }
 
