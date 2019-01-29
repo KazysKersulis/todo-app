@@ -22,7 +22,6 @@ export class TodoService {
   }
 
   archiveTodo(todo: Todo): Observable<any> {
-    console.log(this.TODOS_URL + `/${todo.id}`);
     return this.http.delete(this.TODOS_URL + `/${todo.id}`);
   }
 }
