@@ -7,7 +7,7 @@ import lombok.NoArgsConstructor;
 import java.util.Date;
 
 @Data
-@AllArgsConstructor
+@AllArgsConstructor()
 @NoArgsConstructor
 public class Todo {
 

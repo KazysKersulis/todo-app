@@ -48,7 +48,7 @@ dependencies {
     implementation 'org.projectlombok:lombok:1.18.4'
     compile group: 'org.modelmapper', name: 'modelmapper', version: '0.7.5'
     compile group: 'org.modelmapper.extensions', name: 'modelmapper-jooq', version: '2.3.2'
-    testCompile 'junit:junit:4.11'
+    testCompile 'junit:junit:4.12'
     testImplementation 'org.springframework.boot:spring-boot-starter-test'
 }
 

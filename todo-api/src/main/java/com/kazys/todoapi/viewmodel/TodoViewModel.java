@@ -1,26 +1,20 @@
 package com.kazys.todoapi.viewmodel;
 
-import org.jooq.Require;
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
 import org.springframework.format.annotation.DateTimeFormat;
-
-import javax.validation.constraints.Min;
 import javax.validation.constraints.NotNull;
 import java.util.Date;
 
+@Getter
+@AllArgsConstructor
+@NoArgsConstructor
 public class TodoViewModel {
 
     @NotNull
-    @Min(5)
     private String content;
 
     @DateTimeFormat(pattern = "yyyy-MM-dd")
     private Date created;
-
-    public String getContent() {
-        return content;
-    }
-
-    public Date getCreated() {
-        return created;
-    }
 }

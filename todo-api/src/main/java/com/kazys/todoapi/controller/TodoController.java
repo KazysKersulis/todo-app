@@ -4,6 +4,7 @@ import com.kazys.todoapi.domain.Todo;
 import com.kazys.todoapi.service.TodoService;
 import com.kazys.todoapi.viewmodel.TodoViewModel;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.MediaType;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
@@ -19,7 +20,7 @@ public class TodoController {
     @Autowired
     private TodoService todoService;
 
-    @GetMapping(value = "/todos")
+    @GetMapping(value = "/todos", produces = {MediaType.APPLICATION_JSON_VALUE})
     @ResponseBody
     public List<Todo> getAllTodos() {
         return todoService.getTodos();

@@ -17,7 +17,7 @@ import java.util.List;
 import static org.junit.Assert.assertEquals;
 
 @RunWith(MockitoJUnitRunner.class)
-public class TodoApiTodoControllerTests {
+public class TodoControllerTests {
 
     private static final long id = 1;
 
@@ -35,11 +35,5 @@ public class TodoApiTodoControllerTests {
         List<Todo> allTodos = todoController.getAllTodos();
         assertEquals(todos, allTodos);
     }
-
-    @Test
-    public void testCreateNewTodo() {
-
-    }
-
 }
 
