@@ -7,21 +7,16 @@ import { Todo } from 'src/app/todo';
   templateUrl: './todo-dialog.component.html',
   styleUrls: ['./todo-dialog.component.css']
 })
-export class TodoDialogComponent implements OnInit {
+export class TodoDialogComponent {
 
   constructor(private dialogRef:MatDialogRef<TodoDialogComponent>,
     @Inject(MAT_DIALOG_DATA) public data: Todo) { }
 
-  ngOnInit() {
-  }
-
   onCloseConfirm() {
     this.dialogRef.close(this.data.content);
-    
   }
 
   onCloseCancel() {
     this.dialogRef.close('Cancel');
   }
-
 }

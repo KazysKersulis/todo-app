@@ -20,8 +20,7 @@ export class TodoListComponent implements OnInit {
     id: null,
     content: '',
     archived: false,
-    created: null,
-    completed: null
+    created: null
   }
 
   dataSource;
@@ -47,7 +46,7 @@ export class TodoListComponent implements OnInit {
     });
 
     dialogRef.afterClosed().subscribe(result => {
-      if (result !== 'Cancel' || result !== null) {
+        if (result !== 'Cancel' && typeof result !== 'undefined') {
         this.todo.content = result;
         this.createTodo(this.todo);
       }
@@ -56,11 +55,19 @@ export class TodoListComponent implements OnInit {
 
   archiveTodo(todo: Todo) {
     this.ngRedux.dispatch({ type: ARCHIVE_TODO, todo: todo })
-    this.todoService.archiveTodo(todo);
+    this.todoService.archiveTodo(todo).subscribe(() => {
+      err => {
+        console.log("Todo archive server error");
+      }
+    });
   }
 
   createTodo(todo: Todo) {
     this.ngRedux.dispatch({type: ADD_TODO, todo:todo});
-    this.todoService.createTodo(todo);
+    this.todoService.createTodo(todo).subscribe(() => {
+      err => {
+        console.log("New Todo Item creation server errror");
+      }
+    });
   }
 }

@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { Todo } from './todo';
 
@@ -18,7 +18,8 @@ export class TodoService {
   }
 
   createTodo(todo: Todo): Observable<any> {
-    return this.http.post(this.TODOS_URL, todo);
+    let headers = new HttpHeaders({ "content-type": "application/json", "Accept": "application/json" });
+    return this.http.post(this.TODOS_URL, todo, {headers: headers});
   }
 
   archiveTodo(todo: Todo): Observable<any> {

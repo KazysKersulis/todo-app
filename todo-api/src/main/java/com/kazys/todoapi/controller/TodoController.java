@@ -26,7 +26,7 @@ public class TodoController {
         return todoService.getTodos();
     }
 
-    @PostMapping(value = "/todos")
+    @PostMapping(value = "/todos", consumes = MediaType.APPLICATION_JSON_VALUE)
     public void createTodo(@RequestBody TodoViewModel todoViewModel, BindingResult bindingResult) throws ValidationException {
 
         if (!bindingResult.hasErrors()) {
