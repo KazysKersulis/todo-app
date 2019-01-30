@@ -10,6 +10,7 @@ import {
 } from '@angular/material';
 
 import { MyNavComponent } from './my-nav.component';
+import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 
 describe('MyNavComponent', () => {
   let component: MyNavComponent;
@@ -26,6 +27,8 @@ describe('MyNavComponent', () => {
         MatListModule,
         MatSidenavModule,
         MatToolbarModule,
+      ],schemas: [
+        CUSTOM_ELEMENTS_SCHEMA
       ]
     }).compileComponents();
   }));

@@ -1,5 +1,5 @@
 <div *ngIf="(dataSource | async)?.length">
-  <mat-table [dataSource]="dataSource | async" class="mat-elevation-z8">
+  <mat-table #table [dataSource]="dataSource | async" class="mat-elevation-z8">
     <ng-container matColumnDef="content">
       <mat-header-cell fxFlex="600px" *matHeaderCellDef> Todo </mat-header-cell>
       <mat-cell fxFlex="600px" *matCellDef="let todo"> {{todo.content}} </mat-cell>

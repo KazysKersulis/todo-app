@@ -31,6 +31,7 @@ import {
 import { HttpClientModule } from '@angular/common/http';
 import { TodoService } from './todo.service';
 import { FormsModule } from '@angular/forms';
+import { CUSTOM_ELEMENTS_SCHEMA, NO_ERRORS_SCHEMA } from '@angular/core';
 
 @NgModule({
   declarations: [
@@ -39,6 +40,11 @@ import { FormsModule } from '@angular/forms';
     ArchivedTodoListComponent,
     TodoDialogComponent,
     MyNavComponent
+    
+  ],
+  schemas: [
+    NO_ERRORS_SCHEMA,
+    CUSTOM_ELEMENTS_SCHEMA
   ],
   imports: [
     BrowserModule,
