@@ -49,7 +49,7 @@ describe('TodoListComponent', () => {
     component = fixture.componentInstance;
     fixture.detectChanges();
     store = fixture.debugElement.injector.get(store);
-    store.configureStore(rootReducer, INITIAL_STATE)
+    // store.configureStore(rootReducer, INITIAL_STATE)
     todoService = fixture.debugElement.injector.get(TodoService);
     store.dispatch({ type: POPULATE_TODO_LISTS, todos: todos });
   });
