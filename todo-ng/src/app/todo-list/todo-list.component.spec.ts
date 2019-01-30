@@ -1,30 +1,17 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
-
 import { TodoListComponent } from './todo-list.component';
 import { NO_ERRORS_SCHEMA } from '@angular/core';
 import { MatTableModule, MatCardModule, MatDialogModule, MatDialog } from '@angular/material';
 import { HttpClient, HttpClientModule } from '@angular/common/http';
-import { NgReduxModule, NgRedux } from '@angular-redux/store';
+import { NgReduxTestingModule, MockNgRedux } from '@angular-redux/store/testing';
 import { AppState, rootReducer, INITIAL_STATE } from '../store';
 import { TodoService } from '../todo.service';
-import { Todo } from '../todo';
-import { POPULATE_TODO_LISTS } from '../actions';
-
-// ngRedux.configureStore(rootReducer, INITIAL_STATE);
+import { Subject } from 'rxjs';
 
 describe('TodoListComponent', () => {
   let component: TodoListComponent;
   let fixture: ComponentFixture<TodoListComponent>;
-  let store: NgRedux<AppState>;
   let todoService: TodoService;
-  let todos: Todo[] =  [
-    {
-      id: 1,
-      content: "Test content",
-      archived: false,
-      created: new Date()
-    }
-  ]
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
@@ -32,26 +19,50 @@ describe('TodoListComponent', () => {
       imports: [
         MatTableModule,
         HttpClientModule,
-        NgReduxModule,
+        NgReduxTestingModule,
         MatCardModule,
         MatDialogModule
       ],
       schemas: [
         NO_ERRORS_SCHEMA
       ],
-      providers: [HttpClient, NgRedux]
-    })
-      .compileComponents();
+      providers: [HttpClient, MockNgRedux]
+    }).compileComponents();
+
+    MockNgRedux.reset();
   }));
 
   beforeEach(() => {
     fixture = TestBed.createComponent(TodoListComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
-    store = fixture.debugElement.injector.get(store);
-    // store.configureStore(rootReducer, INITIAL_STATE)
     todoService = fixture.debugElement.injector.get(TodoService);
-    store.dispatch({ type: POPULATE_TODO_LISTS, todos: todos });
+  });
+
+  it('Selects the current todos state from Redux', done => {
+    const fixture = TestBed.createComponent(TodoListComponent);
+    const componentUnderTest = fixture.debugElement.componentInstance;
+
+    const todoStub: Subject<Object[]> = MockNgRedux.getSelectorStub<AppState, Object[]>('todos');
+
+    const expectedTodoValues = {
+      todos: [{
+        id: 1,
+        content: 'test mock content',
+        archived: false,
+        created: new Date()
+      }]
+    }
+
+    todoStub.next(expectedTodoValues);
+
+    todoStub.complete();
+
+    componentUnderTest.todos$
+      .subscribe(
+        actualValues => expect(actualValues).toEqual(expectedTodoValues),
+        null,
+        done)
   });
 
   it('should create', () => {

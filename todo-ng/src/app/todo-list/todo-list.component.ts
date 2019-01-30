@@ -6,6 +6,7 @@ import { NgRedux, select } from '@angular-redux/store';
 import { POPULATE_TODO_LISTS, ARCHIVE_TODO, ADD_TODO } from '../actions';
 import { TodoDialogComponent } from './todo-dialog/todo-dialog.component';
 import { MatDialog } from '@angular/material';
+import { Observable } from 'rxjs';
 
 @Component({
   selector: 'todo-list',
@@ -14,7 +15,7 @@ import { MatDialog } from '@angular/material';
 })
 export class TodoListComponent implements OnInit {
 
-  @select() todos;
+  @select() readonly todos$: Observable<Todo[]>
 
   todo:Todo = {
     id: null,
@@ -34,7 +35,7 @@ export class TodoListComponent implements OnInit {
     this.todoService.getAllTodos().subscribe(
       todos => {
         this.ngRedux.dispatch({ type: POPULATE_TODO_LISTS, todos: todos });
-        this.dataSource = this.todos;
+        this.dataSource = this.todos$;
       })
   }
 
