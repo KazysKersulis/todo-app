@@ -15,7 +15,7 @@ import { Observable } from 'rxjs';
 })
 export class TodoListComponent implements OnInit {
 
-  @select() readonly todos$: Observable<Todo[]>
+  @select() readonly activeTodos$: Observable<Todo[]>
 
   todo:Todo = {
     id: null,
@@ -35,7 +35,7 @@ export class TodoListComponent implements OnInit {
     this.todoService.getAllTodos().subscribe(
       todos => {
         this.ngRedux.dispatch({ type: POPULATE_TODO_LISTS, todos: todos });
-        this.dataSource = this.todos$;
+        this.dataSource = this.activeTodos$;
       })
   }
 

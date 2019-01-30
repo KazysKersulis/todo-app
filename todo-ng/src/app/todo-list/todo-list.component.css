@@ -1,3 +1,11 @@
 .btn-style {
     margin: 30px;
 }
+
+.mat-column-actions {
+    flex: 0 0 100px;
+}
+
+.mat-column-created {
+    flex: 0 0 110px;
+}

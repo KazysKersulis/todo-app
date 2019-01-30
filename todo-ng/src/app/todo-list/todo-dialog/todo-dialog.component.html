@@ -2,7 +2,7 @@
   <h2 mat-dialog-title>Create a new Todo</h2>
   <mat-dialog-content>
     <mat-form-field class="fullwidth">
-        <input matInput placeholder="Create a new Todo" [(ngModel)]="data.content">
+        <input matInput placeholder="Create a new Todo" maxLength="150" [(ngModel)]="data.content">
     </mat-form-field>
   </mat-dialog-content>
   <div mat-dialog-actions>

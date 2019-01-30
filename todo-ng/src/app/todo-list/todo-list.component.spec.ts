@@ -1,12 +1,14 @@
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { async, ComponentFixture, TestBed, inject } from '@angular/core/testing';
 import { TodoListComponent } from './todo-list.component';
 import { NO_ERRORS_SCHEMA } from '@angular/core';
 import { MatTableModule, MatCardModule, MatDialogModule, MatDialog } from '@angular/material';
 import { HttpClient, HttpClientModule } from '@angular/common/http';
 import { NgReduxTestingModule, MockNgRedux } from '@angular-redux/store/testing';
-import { AppState, rootReducer, INITIAL_STATE } from '../store';
+import { AppState } from '../store';
 import { TodoService } from '../todo.service';
 import { Subject } from 'rxjs';
+import { Todo } from '../todo';
+import { POPULATE_TODO_LISTS } from '../actions';
 
 describe('TodoListComponent', () => {
   let component: TodoListComponent;
@@ -39,31 +41,35 @@ describe('TodoListComponent', () => {
     todoService = fixture.debugElement.injector.get(TodoService);
   });
 
-  it('Selects the current todos state from Redux', done => {
-    const fixture = TestBed.createComponent(TodoListComponent);
+  it('Gets the current todos from Redux state', done => {
+    const componentFixture = TestBed.createComponent(TodoListComponent);
     const componentUnderTest = fixture.debugElement.componentInstance;
 
-    const todoStub: Subject<Object[]> = MockNgRedux.getSelectorStub<AppState, Object[]>('todos');
+    const todoStub: Subject<Todo[]> = MockNgRedux.getSelectorStub<AppState, Todo[]>('activeTodos');
 
-    const expectedTodoValues = {
-      todos: [{
+    const expectedTodoValues = [{
         id: 1,
         content: 'test mock content',
         archived: false,
         created: new Date()
       }]
-    }
-
+    
     todoStub.next(expectedTodoValues);
 
     todoStub.complete();
 
-    componentUnderTest.todos$
+    componentUnderTest.activeTodos$
       .subscribe(
         actualValues => expect(actualValues).toEqual(expectedTodoValues),
         null,
         done)
   });
+
+  it('should return all todos', inject([TodoService], service => {
+    service.getAllTodos().subscribe(res => {
+      expect(res.length).toBeGreaterThan(0);
+    });
+  }))
 
   it('should create', () => {
     expect(component).toBeTruthy();
