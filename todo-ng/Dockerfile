@@ -1,7 +1,7 @@
 ## Stage 1: Build application ##
 FROM node:8 as builder
 
-COPY todo-ng /todo-ng
+COPY . /todo-ng
 
 WORKDIR /todo-ng
 
