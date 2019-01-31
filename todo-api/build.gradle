@@ -4,11 +4,14 @@ buildscript {
     ext {
         springBootVersion = '2.1.2.RELEASE'
         datasourceUrl = 'jdbc:mysql://localhost:3306'
-        datasourceUser = 'root'
-        datasourcePassword = 'root'
+        datasourceUser = 'sa'
+        datasourcePassword = 'password'
         schema = 'todos'
     }
     repositories {
+		maven {
+			url "https://plugins.gradle.org./m2/"
+		}
         mavenLocal()
         mavenCentral()
     }
@@ -17,25 +20,35 @@ buildscript {
         classpath"org.jooq:jooq-codegen:3.11.9"
         classpath "org.jooq:jooq-meta-extensions:3.11.9"
         classpath group: 'mysql', name: 'mysql-connector-java', version: '8.0.11'
+		classpath('se.transmode.gradle:gradle-docker:1.2')
+		classpath "io.franzbecker:gradle-lombok:2.0"
     }
 }
 
 plugins {
     id "org.flywaydb.flyway" version "5.2.4"
+	id "io.franzbecker.gradle-lombok" version "2.0"
 }
 
 apply plugin: 'java'
 apply plugin: 'war'
+apply plugin: 'io.franzbecker.gradle-lombok'
 apply plugin: 'org.springframework.boot'
 apply plugin: 'io.spring.dependency-management'
 apply plugin : 'org.flywaydb.flyway'
+apply plugin: 'docker'
 
 war {
+    baseName = 'todo-api'
     enabled = true
     archiveName = 'todo-api.war'
 }
 
-group = 'com.kazys'
+def javaVersion = JavaVersion.VERSION_1_8
+
+sourceCompatibility = javaVersion
+targetCompatibility = javaVersion
+
 version = '0.0.1-SNAPSHOT'
 sourceCompatibility = '1.8'
 
@@ -84,11 +97,32 @@ def xml = new groovy.xml.MarkupBuilder(writer)
             daos true
         }
         target() {
-            packageName('com.kazys.todoapi')
+            packageName('build/libs')
             directory('src/main/java/db')
         }
     }
 }
 
+task copyWar (type:Copy) {
+    dependsOn 'war'
+    from 'build/libs/todo-api.war'
+    into 'build/docker'
+}
+
+task buildDocker (type:Docker) {
+	dependsOn 'build'
+    dependsOn 'copyWar'
+	dependsOn 'flywayMigrate'
+	tasks.findByName('build').mustRunAfter 'flywayMigrate'
+    tasks.findByName('copyWar').mustRunAfter 'build'
+	applicationName = 'todo-api'
+	dockerfile = file('Dockerfile')
+	doFirst {
+		copy {
+			from war
+			into stageDir
+		}
+	}
+}
 
 GenerationTool.generate(writer.toString())
